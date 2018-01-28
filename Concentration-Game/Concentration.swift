@@ -11,7 +11,26 @@ import Foundation
 class Concentration {
     
     var cards = Array<Card>()
-    private var indexOfUniqueFaceUpCard: Int!
+    private var indexOfUniqueFaceUpCard: Int! {
+        get {
+            var foundIndex: Int?
+            for index in cards.indices {
+                if cards[index].isFaceUp {
+                    if foundIndex == nil {
+                        foundIndex = index
+                    } else {
+                        return nil
+                    }
+                }
+            }
+            return foundIndex
+        }
+        set {
+            for index in cards.indices {
+                cards[index].isFaceUp = (index == newValue)
+            }
+        }
+    }
     
     init(numberOfCardPairs: Int) {
         for _ in 1...numberOfCardPairs {
@@ -28,13 +47,8 @@ class Concentration {
                 cards[matchIndex].isMatched = true
             }
             cards[index].isFaceUp = true
-            indexOfUniqueFaceUpCard = nil
-        } else if (indexOfUniqueFaceUpCard == nil) {
-            for index in cards.indices {
-                cards[index].isFaceUp = false
-            }
+        } else {
             indexOfUniqueFaceUpCard = index
-            cards[index].isFaceUp = true
         }
     }
 }
