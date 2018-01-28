@@ -13,13 +13,13 @@ struct Card {
     var identifier: Int
     var isMatched = false
     var isFaceUp = false
-    static var uniqueIdentifier = 0
+    static private var uniqueIdentifier = 0
     
     init() {
         self.identifier = Card.getUniqueIdentifier()
     }
     
-    static func getUniqueIdentifier() -> Int {
+    static private func getUniqueIdentifier() -> Int {
         uniqueIdentifier += 1
         return uniqueIdentifier
     }

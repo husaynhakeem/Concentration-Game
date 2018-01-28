@@ -10,15 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var concentration = Concentration(numberOfCardPairs: (cardButtons.count + 1)/2)
+    private lazy var concentration = Concentration(numberOfCardPairs: (cardButtons.count + 1)/2)
     private var numberOfFlips = 0 {
         didSet {
             numberOfFlipsLabel.text = "Flips: \(numberOfFlips)"
         }
     }
 
-    @IBOutlet var cardButtons: [UIButton]!
-    @IBOutlet weak var numberOfFlipsLabel: UILabel!
+    @IBOutlet private var cardButtons: [UIButton]!
+    @IBOutlet private weak var numberOfFlipsLabel: UILabel!
     
     @IBAction func touchCard(_ sender: UIButton) {
         numberOfFlips += 1
