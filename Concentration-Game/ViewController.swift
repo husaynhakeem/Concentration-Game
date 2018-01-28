@@ -52,7 +52,7 @@ class ViewController: UIViewController {
     private var emojiButtonDictionary = [Int:String]()
     private func emoji(for card: Card) -> String {
         if (emojiButtonDictionary[card.identifier] == nil) {
-            emojiButtonDictionary[card.identifier] = emojis.remove(at: Int(arc4random_uniform(UInt32(emojis.count))))
+            emojiButtonDictionary[card.identifier] = emojis.remove(at: emojis.count.arc4random)
         }
         return emojiButtonDictionary[card.identifier] ?? "?"
     }
