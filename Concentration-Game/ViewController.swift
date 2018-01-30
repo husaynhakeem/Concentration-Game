@@ -48,11 +48,13 @@ class ViewController: UIViewController {
         card.backgroundColor = color
     }
     
-    private var emojis = ["👻", "🎃", "🦇", "💀", "😱", "🙀"]
+    private var emojis = "👻🎃🦇💀😱🙀"
+    
     private var emojiButtonDictionary = [Card:String]()
     private func emoji(for card: Card) -> String {
         if (emojiButtonDictionary[card] == nil) {
-            emojiButtonDictionary[card] = emojis.remove(at: emojis.count.arc4random)
+            let emojiIndex = emojis.index(emojis.startIndex, offsetBy: emojis.count.arc4random)
+            emojiButtonDictionary[card] = String(emojis.remove(at: emojiIndex))
         }
         return emojiButtonDictionary[card] ?? "?"
     }
