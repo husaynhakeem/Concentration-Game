@@ -44,7 +44,7 @@ class Concentration {
     func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index): Chosen card index not contained in cards")
         if let matchIndex = indexOfUniqueFaceUpCard, matchIndex != index {
-            if (cards[matchIndex].identifier == cards[index].identifier) {
+            if (cards[matchIndex] == cards[index]) {
                 cards[index].isMatched = true
                 cards[matchIndex].isMatched = true
             }
