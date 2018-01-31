@@ -13,12 +13,25 @@ class ViewController: UIViewController {
     private lazy var concentration = Concentration(numberOfCardPairs: (cardButtons.count + 1)/2)
     private var numberOfFlips = 0 {
         didSet {
-            numberOfFlipsLabel.text = "Flips: \(numberOfFlips)"
+            updateNumberOfFlips()
         }
+    }
+    
+    private func updateNumberOfFlips() {
+        let attributes: [NSAttributedStringKey:Any] = [
+            .strokeColor: UIColor.orange,
+            .strokeWidth: 5
+        ]
+        let attributedText = NSAttributedString(string: "Flips: \(numberOfFlips)", attributes: attributes)
+        numberOfFlipsLabel.attributedText = attributedText
     }
 
     @IBOutlet private var cardButtons: [UIButton]!
-    @IBOutlet private weak var numberOfFlipsLabel: UILabel!
+    @IBOutlet private weak var numberOfFlipsLabel: UILabel! {
+        didSet {
+            updateNumberOfFlips()
+        }
+    }
     
     @IBAction func touchCard(_ sender: UIButton) {
         numberOfFlips += 1
