@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ConcentrationViewController: UIViewController {
     
     private lazy var concentration = Concentration(numberOfCardPairs: (cardButtons.count + 1)/2)
     private var numberOfFlips = 0 {
@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     
     private func updateNumberOfFlips() {
         let attributes: [NSAttributedStringKey:Any] = [
-            .strokeColor: UIColor.orange,
+            .strokeColor: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
             .strokeWidth: 5
         ]
         let attributedText = NSAttributedString(string: "Flips: \(numberOfFlips)", attributes: attributes)
@@ -34,24 +34,28 @@ class ViewController: UIViewController {
     }
     
     @IBAction func touchCard(_ sender: UIButton) {
-        numberOfFlips += 1
         if let cardNumber = cardButtons.index(of: sender) {
-            concentration.chooseCard(at: cardNumber)
-            updateUI()
+            if !concentration.cards[cardNumber].isMatched {
+                numberOfFlips += 1
+                concentration.chooseCard(at: cardNumber)
+                updateUI()
+            }
         } else {
             print("Pressed card not found in array of buttons")
         }
     }
     
     private func updateUI() {
-        for index in cardButtons.indices {
-            let cardButton = cardButtons[index]
-            let card = concentration.cards[index]
-            
-            if (card.isFaceUp) {
-                updateCardButton(for: cardButton, withEmoji: emoji(for: card), withColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
-            } else {
-                updateCardButton(for: cardButton, withEmoji: "", withColor: card.isMatched ? #colorLiteral(red: 1, green: 0.1857388616, blue: 0.5733950138, alpha: 0) : #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1))
+        if cardButtons != nil {
+            for index in cardButtons.indices {
+                let cardButton = cardButtons[index]
+                let card = concentration.cards[index]
+                
+                if (card.isFaceUp) {
+                    updateCardButton(for: cardButton, withEmoji: emoji(for: card), withColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
+                } else {
+                    updateCardButton(for: cardButton, withEmoji: "", withColor: card.isMatched ? #colorLiteral(red: 1, green: 0.1857388616, blue: 0.5733950138, alpha: 0) : #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1))
+                }
             }
         }
     }
@@ -61,9 +65,16 @@ class ViewController: UIViewController {
         card.backgroundColor = color
     }
     
+    var theme: String? {
+        didSet {
+            emojis = theme ?? ""
+            emojiButtonDictionary = [:]
+            updateUI()
+        }
+    }
     private var emojis = "👻🎃🦇💀😱🙀"
-    
     private var emojiButtonDictionary = [Card:String]()
+    
     private func emoji(for card: Card) -> String {
         if (emojiButtonDictionary[card] == nil) {
             let emojiIndex = emojis.index(emojis.startIndex, offsetBy: emojis.count.arc4random)
